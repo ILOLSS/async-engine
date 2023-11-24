@@ -8,8 +8,8 @@ template <typename T=void>
 class AsyncTask : public BaseTask {
 public:
 
-    AsyncTask( const AsyncTask& ) = delete;
-    AsyncTask& operator=( const AsyncTask& ) = delete;
+    AsyncTask( AsyncTask&& ) = default;
+    AsyncTask& operator=( AsyncTask&& ) = default;
 
     template <typename Function, typename... Args>
     AsyncTask(Function&& function, Args&& ...args) : function_(std::bind(std::forward<Function>(function), std::forward<Args>(args)...)) {}
@@ -38,8 +38,8 @@ template <>
 class AsyncTask<void> : public BaseTask {
 public:
 
-    AsyncTask( const AsyncTask& ) = delete;
-    AsyncTask& operator=( const AsyncTask& ) = delete;
+    AsyncTask( AsyncTask&& ) = default;
+    AsyncTask& operator=( AsyncTask&& ) = default;
 
     template <class Function, class... Args>
     AsyncTask(Function&& function, Args&& ...args) : function_(std::bind(std::forward<Function>(function), std::forward<Args>(args)...)) {}

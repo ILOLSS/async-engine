@@ -24,9 +24,6 @@ public:
         }
     }
 
-    AsyncTaskPool( const AsyncTaskPool& ) = delete;
-    AsyncTaskPool& operator=( const AsyncTaskPool& ) = delete;
-
     void submit(std::unique_ptr<BaseTask> task_ptr) {
 
         tasks_.push(std::move(task_ptr));

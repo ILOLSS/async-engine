@@ -12,9 +12,6 @@ class ThreadSafeQueue {
     typedef T type_name;
 
 public:
-    ThreadSafeQueue() = default;
-    ThreadSafeQueue( const ThreadSafeQueue& ) = delete;
-    ThreadSafeQueue& operator=( const ThreadSafeQueue& ) = delete;
 
     void push(type_name&& value) {
         std::unique_lock<std::mutex> lock(mutex_);
