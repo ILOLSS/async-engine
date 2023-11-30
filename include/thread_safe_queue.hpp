@@ -1,9 +1,11 @@
 #ifndef THREAD_SAFE_QUEUE_H
 #define THREAD_SAFE_QUEUE_H
 
-#include <queue>
-#include <mutex>
+#include <chrono>
 #include <condition_variable>
+#include <iostream>
+#include <mutex>
+#include <queue>
 
 #define DEFAULT_CAPACITY 20
 
@@ -12,25 +14,34 @@ class ThreadSafeQueue {
     typedef T type_name;
 
 public:
-
-    void push(type_name&& value) {
+    void push(type_name &&value) {
         std::unique_lock<std::mutex> lock(mutex_);
-        isNotQueueFull_.wait(lock, [this](){ return queue_.size() < capacity_; });
+        isNotQueueFull_.wait(lock, [this]() {
+            return queue_.size() < capacity_;
+        });
 
         queue_.push(std::forward<type_name>(value));
 
         isNotQueueEmpty_.notify_all();
     }
 
-    type_name pop() {
+    bool try_pop(type_name &value) {
         std::unique_lock<std::mutex> lock(mutex_);
-        isNotQueueEmpty_.wait(lock, [this](){ return !queue_.empty(); });
-        type_name value(std::move(queue_.front()));
-    
+        // if (!isNotQueueEmpty_.wait_for(
+        //         lock, std::chrono::milliseconds(100),
+        //         [this]() { return !queue_.empty(); }
+        //     )) {
+        //     return false;
+        // }
+
+        isNotQueueEmpty_.wait(lock, [this]() { return !queue_.empty(); });
+
+        value = std::move(queue_.front());
+
         queue_.pop();
         isNotQueueFull_.notify_all();
 
-        return value;
+        return true;
     }
 
 private:
@@ -41,4 +52,4 @@ private:
     const int capacity_ = DEFAULT_CAPACITY;
 };
 
-#endif // THREAD_SAFE_QUEUE_H
+#endif  // THREAD_SAFE_QUEUE_H

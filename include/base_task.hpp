@@ -4,7 +4,7 @@
 class BaseTask {
 public:
     virtual void operator()() = 0;
-    virtual ~BaseTask() {};
+    virtual ~BaseTask(){};
 };
 
-#endif // TASK_H
+#endif  // TASK_H

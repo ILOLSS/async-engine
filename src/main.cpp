@@ -1,18 +1,17 @@
+#include <future>
 #include <iostream>
 #include <memory>
-#include <unistd.h>
-#include <mutex>
-#include <thread>
-#include "AsyncTasksPool.hpp"
-#include "AsyncTask.hpp"
+#include "../include/async_task.hpp"
+#include "../include/async_tasks_pool.hpp"
 
 class MyTask : public AsyncTask<bool> {
 public:
-    MyTask(int x) : x_(x) {}
+    MyTask(int x) : x_(x) {
+    }
 
 protected:
     bool run() override {
-        for(int i = 2; i * i <= x_; i++) {
+        for (int i = 2; i * i <= x_; i++) {
             if (x_ % i == 0) {
                 return false;
             }
@@ -20,7 +19,7 @@ protected:
         return true;
     }
 
-private: 
+private:
     int x_;
 };
 
