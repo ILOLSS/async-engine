@@ -1,6 +1,7 @@
-#include <future>
 #include <iostream>
+#include <future>
 #include <memory>
+
 #include "../include/async_task.hpp"
 #include "../include/async_tasks_pool.hpp"
 

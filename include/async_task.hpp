@@ -2,6 +2,8 @@
 #define ASYNC_TASK_H
 
 #include <future>
+#include <functional>
+
 #include "base_task.hpp"
 
 template <typename T = void>

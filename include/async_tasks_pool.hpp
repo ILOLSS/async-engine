@@ -3,8 +3,8 @@
 
 #include <atomic>
 #include <memory>
-#include "async_task.hpp"
-#include "thread_guard.hpp"
+
+#include "base_task.hpp"
 #include "thread_safe_queue.hpp"
 
 #define DEFAULT_COUNT_OF_WORKERS 8

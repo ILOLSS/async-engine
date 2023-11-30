@@ -3,7 +3,6 @@
 
 #include <chrono>
 #include <condition_variable>
-#include <iostream>
 #include <mutex>
 #include <queue>
 
@@ -11,7 +10,7 @@
 
 template <typename T>
 class ThreadSafeQueue {
-    typedef T type_name;
+    using type_name = T;
 
 public:
     void push(type_name &&value) {

@@ -1,5 +1,9 @@
+#include <memory>
+#include <utility>
+
 #include "../include/async_tasks_pool.hpp"
-#include <iostream>
+#include "../include/thread_guard.hpp"
+#include "../include/base_task.hpp"
 
 AsyncTaskPool::AsyncTaskPool() : is_stop_(false) {
     for (int i = 0; i < threadCount_; i++) {
