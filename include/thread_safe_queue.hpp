@@ -27,14 +27,13 @@ public:
 
     bool try_pop(type_name &value) {
         std::unique_lock<std::mutex> lock(mutex_);
-        // if (!isNotQueueEmpty_.wait_for(
-        //         lock, std::chrono::milliseconds(100),
-        //         [this]() { return !queue_.empty(); }
-        //     )) {
-        //     return false;
-        // }
 
-        isNotQueueEmpty_.wait(lock, [this]() { return !queue_.empty(); });
+        if (!isNotQueueEmpty_.wait_for(
+                lock, std::chrono::milliseconds(100),
+                [this]() { return !queue_.empty(); }
+            )) {
+            return false;
+        }
 
         value = std::move(queue_.front());
 
